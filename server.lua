@@ -3,8 +3,9 @@
 ---------------------------------
 
 RegisterCommand('setada', function(source, args, rawCommand)
+    local radius = tonumber(args[1])
     if IsPlayerAceAllowed(source, 'fax.admin') then
-        TriggerClientEvent("Fax:AdminAreaSet", -1, source)
+            TriggerClientEvent("Fax:AdminAreaSet", -1, source, radius)
     else
         TriggerClientEvent("chatMessage", source, "^*^1Insufficient Permissions.")
     end

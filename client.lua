@@ -4,7 +4,7 @@
 
 --- Config ---
 misTxtDis = "~g~Admin Area Was Made. ~w~Do not RP within this area." -- Use colors from: https://gist.github.com/leonardosnt/061e691a1c6c0597d633
-blipRadius = 250.0
+blipRadius = 250.0 -- default radius, if none is specified.
 blipCol = 2 -- Default: 2 (Green) Use colors from https://wiki.gt-mp.net/index.php?title=Blips (At Bottom)
 blipName = "Admin Area"
 
@@ -20,14 +20,18 @@ function missionTextDisplay(text, time)
 end
 
 RegisterNetEvent('Fax:AdminAreaSet')
-AddEventHandler("Fax:AdminAreaSet", function(s)
+AddEventHandler("Fax:AdminAreaSet", function(s, adaRadius)
     RemoveBlip(blip)
     RemoveBlip(radiusBlip)
+
+    if adaRadius == nil then
+        adaRadius = blipRadius
+    end
 
     local src = s
     local coords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(src)))
     blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-    radiusBlip = AddBlipForRadius(coords.x, coords.y, coords.z, blipRadius)
+    radiusBlip = AddBlipForRadius(coords.x, coords.y, coords.z, adaRadius)
     SetBlipSprite(blip, 269)
     SetBlipAsShortRange(blip, true)
     SetBlipColour(blip, blipCol)
@@ -49,4 +53,3 @@ AddEventHandler("Fax:AdminAreaClear", function()
     RemoveBlip(radiusBlip)
     missionTextDisplay("Admin area no longer in effect", 5000)
 end)
-    
